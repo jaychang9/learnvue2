@@ -20,18 +20,20 @@
             <input v-model="question">
         </p>
         <p>{{ answer }}</p>
+        <img v-bind:src="answerImgUrl" v-show="answerImgUrl.length > 0"/>
     </div>
     <script>
         var vm = new Vue({
             el: '#app',
             data: {
                 question: '',
-                answer: 'I cannot give you an answer until you ask a question!'
+                answer: 'I cannot give you an answer until you ask a question!',
+                answerImgUrl: ''
             },
             watch: {
                 question: function (newQuestion, oldQuestion) {
                     this.answer = 'Waiting for you to stop typing...'
-
+                    this.debouncedGetAnswer()
                 }
             },
             created: function () {
@@ -44,7 +46,22 @@
             },
             methods: {
                 getAnswer: function () {
-                    
+                    if (this.question.indexOf('?') == -1) {
+                        this.answer = 'Questions usually contain a question mark. ;-)'
+                        this.answerImgUrl = ''
+                        return
+                    }
+                    this.answer = 'Thinking...'
+
+                    var vm = this
+                            
+                    axios.get('https://yesno.wtf/api').then(function (response) {
+                        vm.answer = _.capitalize(response.data.answer)
+                        vm.answerImgUrl = response.data.image
+                    }).catch(function (error) {
+                        vm.answer = 'Error! Could not reach the API. ' + error
+                    })
+
                 }
             }
         })        
