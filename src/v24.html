@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item, index) in items" :key="item.id">
+                {{index}} {{parentMessage}} {{item.text}}
+            </li>
+        </ul>
+
+        <br />
+
+        <ul>
+            <li v-for="(item, index) of items" :key="item.id">
+                {{index}} {{parentMessage}} {{item.text}}
+            </li>
+        </ul>
+        <br />
+        <input v-model="ignoreFruit" placeholder="input ignore fruit">
+        <br />
+        <p>Ingore Fruit:{{ignoreFruit}}</p>
+        <button @click="doFilter">Filter</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                parentMessage: 'This is a parent message',
+                items: [
+                    { id: 1, text: 'Apple' },
+                    { id: 2, text: 'Orange' },
+                    { id: 3, text: 'Pear' },
+                ],
+                ignoreFruit: ''
+            },
+            methods: {
+                doFilter: function () {
+                    var vm = this
+                    this.items = this.items.filter(function (item) {
+                        return item.text !== vm.ignoreFruit
+                    })
+                }
+            }
+        })        
+    </script>
+</body>
+
+</html>
