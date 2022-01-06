@@ -13,39 +13,34 @@
 
 <body>
     <div id="app">
-        <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post">
-        </blog-post>
+        <div :style="{ fontSize: postFontSize + 'em' }">
+            <blog-post v-for="post in posts" v-bind:key="post.id" v-bind:post="post"
+                v-on:enlarge-text="postFontSize += $event">
+            </blog-post>
+        </div>
     </div>
 
 
     <script>
-        // 看起来当组件变得越来越复杂的时候，我们的博文不只需要标题和内容，还需要发布日期、评论等等。为每个相关的信息定义一个 prop 会变得很麻烦：
-        // 所以是时候重构一下这个 <blog-post> 组件了，让它变成接受一个单独的 post prop：
 
-            
         Vue.component('blog-post', {
             props: ['post'],
             template: `
             <div>
                 <h3>{{post.title}}</h3>
-                <p>{{post.content}}</p>
+                <button @click="$emit('enlarge-text',0.1)">Enlarge text</button>
+                <div v-html="post.content"></div>
                 <span>{{post.publishUserId}}</span>
             </div>
             `
         })
 
-        // 上述的这个和一些接下来的示例使用了 JavaScript 的模板字符串来让多行的模板更易读。它们在 IE 下并没有被支持，所以如果你需要在不 (经过 Babel 或 TypeScript 之类的工具) 编译的情况下支持 IE，
-        // 请使用折行转义字符取而代之。
-        // '<div>\
-        //     <h3>{{post.title}}</h3>\
-        //     <p>{{post.content}}</p>\
-        //     <span>{{post.publishUserId}}</span>\
-        // </div>'
 
         var vm = new Vue({
             el: '#app',
             data: {
-                posts: []
+                posts: [],
+                postFontSize: 1
             },
             created: function () {
                 var vm = this;
