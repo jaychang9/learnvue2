@@ -13,14 +13,14 @@
 
 <body>
     <div id="app">
-        <custom-input v-model="searchText" ></custom-input>
+        <custom-input v-model="searchText"></custom-input>
     </div>
 
 
     <script>
 
         Vue.component('custom-input', {
-            prop: ['value'],
+            props: ['value'],
             data: function () {
                 return {
                     value: ''
