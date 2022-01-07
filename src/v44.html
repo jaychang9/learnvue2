@@ -13,11 +13,15 @@
 
 <body>
     <div id="app">
-        <base-input v-model="searchText" v-bind:label="labelText" v-on:focus="onFocus"></base-input>
+        <!-- <base-input v-model="searchText" v-bind:label="labelText" v-on:focus="onFocus"></base-input> -->
+        <base-input v-model="searchText" :label="labelText" :focus="onFocus"></base-input>
     </div>
 
-
+    
     <script>
+        // 自定义组件，这个组件最外层元素是一个label（或是其他不可能出发focus事件的元素）
+        // 那么需要从父级添加所有的监听器
+
         Vue.component('base-input', {
             inheritAttrs: false,
             props: ['label', 'value'],
@@ -40,15 +44,15 @@
                 }
             },
             template: `
-    <label>
-      {{ label }}
-      <input
-        v-bind="$attrs"
-        v-bind:value="value"
-        v-on="inputListeners"
-      >
-    </label>
-  `
+                <label>
+                {{ label }}
+                <input
+                    v-bind="$attrs"
+                    v-bind:value="value"
+                    v-on="inputListeners"
+                >
+                </label>
+            `
         })
 
         var vm = new Vue({

@@ -40,11 +40,6 @@
 
         Vue.component('custom-input', {
             props: ['value'],
-            data: function () {
-                return {
-                    value: ''
-                }
-            },
             template: `
                 <input style="border-radius: 5px;border-color: #66afe9;outline: 0; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6); box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)"
                     v-bind:value="value" v-on:input="$emit('input', $event.target.value)" placeholder="输入框默认内容"

@@ -26,27 +26,10 @@
 
         // 为了让它正常工作，这个组件内的 <input> 必须：
         // 将其 value attribute 绑定到一个名叫 value 的 prop 上
-        // 在其 input 事件被触发时，将新的值通过自定义的 input 事件抛出
-
-        // 如果自定义组件不对value进行定义的话，vue认为value不是响应式的，就会有这个报错
-        // vue.js:634 [Vue warn]: Property or method "value" is not defined on the instance but referenced during render. Make sure that this property is reactive, either in the data option, or for class-based components, by initializing the property. See: https://vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.
-        // found in
-        // ---> <CustomInput>
-        //     <Root>
-        // 所以务必要注意以下对于value的定义
-        // data: function () {
-        //     return {
-        //         value: ''
-        //     }
-        // },    
+        // 在其 input 事件被触发时，将新的值通过自定义的 input 事件抛出   
 
         Vue.component('custom-input', {
             props: ['value'],
-            data: function () {
-                return {
-                    value: ''
-                }
-            },
             template: `
                 <input style="border-radius: 5px;border-color: #66afe9;outline: 0; -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6); box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)"
                     v-bind:value="value" v-on:input="$emit('input', $event.target.value)" placeholder="输入框默认内容"
