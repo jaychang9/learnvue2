@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Example 51</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <!-- v-bind:user与:user的写法效果是一样的 -->
+
+        <current-user v-bind:user="userObj">
+
+        </current-user>
+
+        <br />
+
+        <current-user v-bind:user="userObj">
+            <template v-slot:default="slotProps">
+                {{ slotProps.user.firstName }}
+            </template>
+        </current-user>
+
+        <br />
+
+        <!-- 解构插槽 Prop -->
+        <current-user v-bind:user="userObj" v-slot="{ user }">
+            {{ user.firstName }}
+        </current-user>
+
+        <br />
+
+        <!-- 将 user 重命名为 person -->
+        <current-user :user="userObj" v-slot="{ user: person }">
+            {{ person.firstName }}
+        </current-user>
+
+        <br />
+        <!-- 你甚至可以定义后备内容，用于插槽 prop 是 undefined 的情形 -->
+
+        <current-user :user="userObj" v-slot="{ user = {firstName : 'Guest'} }">
+            {{ user.firstName }}
+        </current-user>
+    </div>
+
+
+    <script>
+
+
+        Vue.component('current-user', {
+            props: ['user'],
+            template: `
+                <span>
+                    <slot v-bind:user="user">
+                        {{ user.lastName }}
+                    </slot>
+                </span>
+            `
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                userObj: {
+                    firstName: 'Jay',
+                    lastName: 'Chang'
+                }
+            }
+        })        
+    </script>
+</body>
+
+</html>
