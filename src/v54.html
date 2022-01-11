@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Example 51</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <todo-list v-bind:todos="todos">
+            <template v-slot:todo="{todo}">
+                <span v-if="todo.isCompleted">
+                    ✓
+                </span>
+                {{ todo.text }}
+            </template>
+        </todo-list>
+
+    </div>
+
+
+    <script>
+
+
+        Vue.component('todo-list', {
+            props: ['user'],
+            template: `
+                <ul>
+                    <li
+                        v-for="todo in filteredTodos"
+                        v-bind:key="todo.id">
+                        <!-- 我们为每个 todo 准备了一个插槽，将 todo 对象作为一个插槽的 prop 传入。-->
+                        <slot name="todo" v-bind:todo="todo">
+                            <!-- 后备内容 -->
+                            {{ todo.text }}
+                        </slot>
+                    </li>
+                </ul>
+            `
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                todos: [
+                    {
+                        text: 'Task 1',
+                        isCompleted: true,
+                    },
+                    {
+                        text: 'Task 2',
+                        isCompleted: false,
+                    }
+                ]
+            }
+        })        
+    </script>
+</body>
+
+</html>
